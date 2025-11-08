@@ -1,0 +1,50 @@
+[
+  {
+    "email": "admin@findly.com",
+    "name": "Admin",
+    "password": "$2b$12$X0TcQzLewfq5ViMxykuq8ulEnVT6Uq1.9TpTk/WF6phPvGzm9K2l2",
+    "role": "admin",
+    "branch": null,
+    "semester": null
+  },
+  {
+    "name": "Test Student",
+    "email": "student655@college.edu",
+    "password": "$2b$12$S0dslive66JMCiZZyGggiOAKhe48OqM4EiCZRGlgVBB4vL6FZqrCW",
+    "role": "student",
+    "branch": "CSE",
+    "semester": "6"
+  },
+  {
+    "name": "Test Student",
+    "email": "student754@college.edu",
+    "password": "$2b$12$8XfwX/vpAIBNF.1Zhwq9cu0T4FTAhq21ovWeLNGBTUU4mMoGqarL6",
+    "role": "student",
+    "branch": "CSE",
+    "semester": "6"
+  },
+  {
+    "name": "Bharath",
+    "email": "9.bharath.a@gmail.com",
+    "password": "$2b$12$hBI548g97XRQhttmqRJRI.LzfuGI9wGynZzmrzSmxYOmZ1OltPUS2",
+    "role": "student",
+    "branch": "CSE",
+    "semester": "1"
+  },
+  {
+    "name": "SANKETH V V",
+    "email": "sankethvenukumarv@gmail.com",
+    "password": "$2b$12$ViJJIt32TG6hC4/WePOYLOs2YkD5tHVr/WtWhcA27ejMkyIfN58yi",
+    "role": "student",
+    "branch": "ECE",
+    "semester": "1"
+  },
+  {
+    "name": "hasham..",
+    "email": "hasham2kk6@gmail.com",
+    "password": "$2b$12$ISagP.lAB1Pl/waawUN0EOVkg8QzAyiGa10LOW9dfCXGZjeY9Cz9e",
+    "role": "student",
+    "branch": "CSE",
+    "semester": "1"
+  }
+]

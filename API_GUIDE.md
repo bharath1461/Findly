@@ -359,3 +359,226 @@ Findly_backend/
 For questions about the API, check the interactive docs:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
+
+---
+
+## 🛡️ Error Responses
+
+### Common Error Codes
+
+**400 Bad Request** - Invalid file type:
+```json
+{
+  "detail": "❌ Invalid file type '.exe'. Only PDF, DOCX, and TXT files are allowed."
+}
+```
+
+**400 Bad Request** - File too large:
+```json
+{
+  "detail": "❌ File too large (15.32 MB). Maximum file size is 10 MB. Please upload a smaller file."
+}
+```
+
+**400 Bad Request** - Email already exists:
+```json
+{
+  "detail": "❌ Email already registered. Please use a different email or login."
+}
+```
+
+**401 Unauthorized** - Invalid credentials:
+```json
+{
+  "detail": "❌ Invalid email or password. Please check your credentials and try again."
+}
+```
+
+**401 Unauthorized** - Token expired:
+```json
+{
+  "detail": "❌ Session expired or invalid. Please login again."
+}
+```
+
+**422 Unprocessable Entity** - Validation error:
+```json
+{
+  "detail": [
+    {
+      "loc": ["body", "email"],
+      "msg": "value is not a valid email address",
+      "type": "value_error.email"
+    }
+  ]
+}
+```
+
+---
+
+## 📚 Complete Example Flow
+
+### Using cURL
+
+**1. Sign up:**
+```bash
+curl -X POST http://localhost:8000/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Jane Doe",
+    "email": "jane@college.edu",
+    "password": "password123",
+    "role": "student",
+    "branch": "CSE",
+    "semester": "6"
+  }'
+```
+
+**2. Login:**
+```bash
+curl -X POST http://localhost:8000/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "jane@college.edu",
+    "password": "password123"
+  }'
+```
+
+**3. Upload document:**
+```bash
+curl -X POST http://localhost:8000/upload \
+  -F "file=@myproject.pdf" \
+  -F "token=eyJhbGc..."
+```
+
+**4. Search:**
+```bash
+curl -X POST http://localhost:8000/chat-search \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "machine learning projects from 2023"
+  }'
+```
+
+### Using JavaScript (Fetch API)
+
+**Login:**
+```javascript
+const login = async () => {
+  const response = await fetch('http://localhost:8000/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: 'jane@college.edu',
+      password: 'password123'
+    })
+  });
+  const data = await response.json();
+  return data.access_token;
+};
+```
+
+**Upload:**
+```javascript
+const uploadDocument = async (file, token) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('token', token);
+  
+  const response = await fetch('http://localhost:8000/upload', {
+    method: 'POST',
+    body: formData
+  });
+  return await response.json();
+};
+```
+
+**Search:**
+```javascript
+const search = async (query) => {
+  const response = await fetch('http://localhost:8000/chat-search', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query })
+  });
+  return await response.json();
+};
+```
+
+---
+
+## 🔧 Configuration Reference
+
+### Environment Variables (.env)
+
+```env
+SECRET_KEY=your-secret-key-here
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=120
+OPENAI_API_KEY=sk-...
+```
+
+### File Upload Limits
+
+- **Max file size**: 10 MB
+- **Allowed types**: `.pdf`, `.docx`, `.txt`
+- **Upload directory**: `./uploads/`
+
+### Supported Values
+
+**Departments:**
+- CSE, ECE, EEE, MECH, CIVIL, IT, ADMIN, GENERAL
+
+**Document Types:**
+- Project Report, Research Paper, Notes, Assignment
+- Circular, Letter, Meeting Minutes, Thesis, Lab Report, Other
+
+**User Roles:**
+- student, teacher, admin
+
+---
+
+## ✅ Testing
+
+The repository includes a test script. Run it with:
+
+```bash
+python test_api.py
+```
+
+This will test all major endpoints and verify functionality.
+
+---
+
+## 🔄 Recent Updates
+
+### Enhanced Error Messages
+- ✅ Clear, user-friendly error descriptions
+- ✅ Specific validation feedback
+- ✅ Helpful suggestions for fixing errors
+
+### Improved File Validation
+- ✅ Better file type checking
+- ✅ Detailed size limit messages
+- ✅ Supported format listing
+
+---
+
+## 📝 Notes
+
+- All endpoints support CORS for local development
+- JWT tokens expire after 120 minutes
+- Documents are stored locally in `uploads/` directory
+- Metadata is saved in `data.json`
+- User data is stored in `users.json`
+- First 10,000 characters of each document are indexed for search
+
+---
+
+## 🎯 Best Practices
+
+1. **Always validate file size** before uploading
+2. **Store JWT tokens securely** (localStorage/sessionStorage)
+3. **Handle token expiration** gracefully with re-authentication
+4. **Use chat-search** for better results over basic search
+5. **Include filters** in search queries for faster results

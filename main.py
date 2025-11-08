@@ -126,7 +126,7 @@ def verify_token(token: str):
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid or expired token")
+        raise HTTPException(status_code=401, detail="❌ Session expired or invalid. Please login again.")
 
 
 def extract_text_from_pdf(pdf_path: Path) -> str:
@@ -211,7 +211,7 @@ def health():
 def signup(payload: SignupIn):
     users = load_users()
     if any(u["email"] == payload.email for u in users):
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="❌ Email already registered. Please use a different email or login.")
 
     users.append(
         {
@@ -249,7 +249,7 @@ def login(payload: LoginIn):
                 "name": u.get("name", ""),
             }
 
-    raise HTTPException(status_code=401, detail="Invalid credentials")
+    raise HTTPException(status_code=401, detail="❌ Invalid email or password. Please check your credentials and try again.")
 
 
 @app.post("/upload")
@@ -261,7 +261,7 @@ async def upload_pdf(file: UploadFile = File(...), token: str = Form(...)):
     if ext not in ALLOWED_EXTENSIONS:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid file type: {ext}. Only .pdf and .docx are allowed.",
+            detail=f"❌ Invalid file type '{ext}'. Only PDF, DOCX, and TXT files are allowed.",
         )
 
     # ✅ Check file size
@@ -270,7 +270,7 @@ async def upload_pdf(file: UploadFile = File(...), token: str = Form(...)):
     if file_size_mb > MAX_FILE_SIZE_MB:
         raise HTTPException(
             status_code=400,
-            detail=f"File too large ({file_size_mb:.2f} MB). Max allowed is {MAX_FILE_SIZE_MB} MB.",
+            detail=f"❌ File too large ({file_size_mb:.2f} MB). Maximum file size is {MAX_FILE_SIZE_MB} MB. Please upload a smaller file.",
         )
 
     # Save file
