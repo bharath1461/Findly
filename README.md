@@ -170,9 +170,19 @@ For detailed API documentation, visit: `http://127.0.0.1:8000/docs` when the bac
 
 ## 🎬 Demo
 
-> **Coming Soon**: Live demo will be deployed and linked here.
+### Current Status
+✅ **Backend**: Running locally on `http://127.0.0.1:8000`  
+⚠️ **Frontend**: Requires Node.js installation (see setup instructions)
 
-For now, you can run the application locally following the setup instructions above.
+### Live Demo
+> **Coming Soon**: Live demo will be deployed and linked here once both frontend and backend are deployed to cloud platforms.
+
+### Screenshots
+> Add screenshots of your application here once the frontend is running
+
+For now, you can:
+- View the API documentation: http://127.0.0.1:8000/docs (when backend is running)
+- Run the application locally following the setup instructions above
 
 ---
 
