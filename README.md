@@ -16,4 +16,3 @@ Findly is an intelligent document management system that enables students and ed
 - 🎯 **Smart Filtering**: Filter documents by course, semester, and relevance
 - 💾 **Document Management**: Easy upload and organization of academic materials
 
----
