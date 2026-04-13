@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Findly – AI-powered document search and summarization tool. Upload PDFs, search content, and get instant AI summaries." />
+  <title>Findly – AI Document Search</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">Findly</span>
+        <span class="logo-badge">AI</span>
+      </div>
+      <nav class="header-nav">
+        <span class="nav-tag">Document Intelligence</span>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon" id="theme-icon">🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="hero-content">
+      <h1 class="hero-title">Find Anything.<br /><span class="gradient-text">Understand Everything.</span></h1>
+      <p class="hero-subtitle">Upload your documents and let AI search, extract, and summarize insights for you — instantly.</p>
+      <div class="hero-badges">
+        <span class="badge">📄 PDF Support</span>
+        <span class="badge">🔍 Smart Search</span>
+        <span class="badge">🤖 AI Summaries</span>
+        <span class="badge">⌨️ Keyboard Shortcuts</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="main-container">
+
+    <!-- UPLOAD SECTION -->
+    <section class="card upload-section" id="upload-section">
+      <div class="card-header">
+        <h2 class="card-title"><span class="icon">📂</span> Upload Document</h2>
+        <p class="card-subtitle">Drag & drop a PDF or click to browse</p>
+      </div>
+
+      <div class="drop-zone" id="drop-zone" role="button" tabindex="0" aria-label="Upload PDF file">
+        <div class="drop-zone-inner">
+          <div class="drop-icon">📄</div>
+          <p class="drop-text">Drop your PDF here</p>
+          <p class="drop-subtext">or <span class="highlight-link">click to browse</span></p>
+          <input type="file" id="file-input" accept=".pdf" hidden aria-label="File input" />
+        </div>
+      </div>
+
+      <!-- PROGRESS BAR -->
+      <div class="progress-wrap" id="progress-wrap" hidden>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p class="progress-text" id="progress-text">Processing PDF…</p>
+      </div>
+
+      <div class="file-list" id="file-list" hidden>
+        <div class="file-item" id="file-item">
+          <span class="file-icon">📎</span>
+          <div class="file-info">
+            <span class="file-name" id="file-name"></span>
+            <span class="file-size" id="file-size"></span>
+          </div>
+          <button class="remove-btn" id="remove-file" aria-label="Remove file">✕</button>
+        </div>
+      </div>
+
+      <!-- DOCUMENT STATS -->
+      <div class="doc-stats" id="doc-stats" hidden>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-pages">—</span>
+          <span class="stat-label">Pages</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-words">—</span>
+          <span class="stat-label">Words</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="stat-chars">—</span>
+          <span class="stat-label">Characters</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH SECTION -->
+    <section class="card search-section" id="search-section">
+      <div class="card-header">
+        <h2 class="card-title"><span class="icon">🔍</span> Search Document</h2>
+        <p class="card-subtitle">Ask a question or search for keywords <kbd class="kbd-hint">Ctrl+K</kbd></p>
+      </div>
+
+      <div class="search-bar-wrap">
+        <input
+          type="text"
+          id="search-input"
+          class="search-input"
+          placeholder="e.g. What are the main findings?"
+          aria-label="Search query"
+        />
+        <button class="btn btn-primary" id="search-btn" aria-label="Search">
+          <span class="btn-icon">🔍</span> Search
+        </button>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="results-area" id="results-area" hidden>
+        <p class="results-label">Results <span class="results-count" id="results-count"></span></p>
+        <div class="results-list" id="results-list"></div>
+      </div>
+    </section>
+
+    <!-- SUMMARY SECTION -->
+    <section class="card summary-section" id="summary-section">
+      <div class="card-header">
+        <h2 class="card-title"><span class="icon">🤖</span> AI Summary</h2>
+        <p class="card-subtitle">Generate an intelligent summary of your document <kbd class="kbd-hint">Ctrl+Enter</kbd></p>
+      </div>
+
+      <div class="api-key-wrap">
+        <label for="api-key-input" class="api-key-label">OpenAI API Key</label>
+        <div class="api-key-row">
+          <input
+            type="password"
+            id="api-key-input"
+            class="api-key-input"
+            placeholder="sk-..."
+            aria-label="OpenAI API Key"
+          />
+          <button class="btn btn-ghost" id="toggle-key" aria-label="Toggle API key visibility">👁</button>
+        </div>
+        <p class="api-key-hint">Your key is stored in this session only and sent directly to OpenAI.</p>
+      </div>
+
+      <button class="btn btn-accent full-width" id="summarize-btn" aria-label="Generate AI summary">
+        <span class="btn-icon">✨</span> Generate Summary
+      </button>
+
+      <!-- SPINNER -->
+      <div class="spinner-wrap" id="spinner" hidden>
+        <div class="spinner" role="status" aria-label="Loading"></div>
+        <p class="spinner-text">Analyzing document…</p>
+      </div>
+
+      <!-- SUMMARY OUTPUT -->
+      <div class="summary-output" id="summary-output" hidden>
+        <div class="summary-card">
+          <div class="summary-card-header">
+            <span class="summary-label">AI-Generated Summary</span>
+            <button class="copy-btn" id="copy-btn" aria-label="Copy summary">📋 Copy</button>
+          </div>
+          <p class="summary-text" id="summary-text"></p>
+        </div>
+      </div>
+
+      <!-- ERROR -->
+      <div class="error-box" id="error-box" hidden>
+        <span class="error-icon">⚠️</span>
+        <p class="error-msg" id="error-msg"></p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Built with ⚡ by <strong>Findly</strong> &mdash; AI-powered document intelligence. <span class="footer-version">v2.0</span></p>
+  </footer>
+
+  <!-- PDF.js library for real PDF text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs" type="module"></script>
+  <script src="script.js" type="module"></script>
+</body>
+</html>
